@@ -16,7 +16,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 }) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [city, setCity] = useState('Алматы');
+  const [city, setCity] = useState('Шымкент');
   const [comment, setComment] = useState('');
   const [honeypot, setHoneypot] = useState('');
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calculateBlindPrice, formatKZT, MIN_BILLABLE_AREA } from '../src/lib/calculator';
+import { calculateBlindPrice, formatKZT } from '../src/lib/calculator';
 
 describe('Calculator Pricing Logic', () => {
   it('calculates price correctly for standard Day-Night blinds', () => {
@@ -13,15 +13,15 @@ describe('Calculator Pricing Logic', () => {
     expect(res.minPriceApplied).toBe(false);
   });
 
-  it('enforces minimum billable area (1.0 m2) for small windows', () => {
+  it('enforces minimum billable area (1.0 m2) for small windows with new 7000 KZT rate', () => {
     // Width: 50cm (0.5m), Height: 80cm (0.8m) => raw area: 0.4m2
     // But minimum billable area is 1.0 m2!
-    // Vertical blinds rate: 3500 KZT/m2
-    // Price = 1.0 * 3500 = 3500 KZT
+    // Vertical blinds rate: 7000 KZT/m2
+    // Price = 1.0 * 7000 = 7000 KZT
     const res = calculateBlindPrice('vertical', 50, 80, 1, 'standard');
     expect(res.areaPerItem).toBe(0.4);
-    expect(res.pricePerItem).toBe(3500);
-    expect(res.totalPrice).toBe(3500);
+    expect(res.pricePerItem).toBe(7000);
+    expect(res.totalPrice).toBe(7000);
   });
 
   it('applies fabric multipliers (Blackout 100% = +30%)', () => {
@@ -35,10 +35,10 @@ describe('Calculator Pricing Logic', () => {
 
   it('multiplies price by quantity accurately', () => {
     const res = calculateBlindPrice('roller', 100, 100, 3, 'standard');
-    // Roller rate = 6500 KZT/m2, Area = 1.0m2, Single = 6500 KZT
-    // Qty = 3 => Total = 19500 KZT
-    expect(res.pricePerItem).toBe(6500);
-    expect(res.totalPrice).toBe(19500);
+    // Roller rate = 7000 KZT/m2, Area = 1.0m2, Single = 7000 KZT
+    // Qty = 3 => Total = 21000 KZT
+    expect(res.pricePerItem).toBe(7000);
+    expect(res.totalPrice).toBe(21000);
   });
 
   it('formats KZT correctly with ₸ symbol', () => {

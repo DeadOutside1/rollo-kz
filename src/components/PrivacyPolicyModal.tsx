@@ -60,7 +60,7 @@ export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, 
 
           <h4 className="font-bold text-gray-900 text-base">4. Контактная информация оператора</h4>
           <p>
-            По всем вопросам, связанным с обработкой персональных данных, вы можете обращаться по телефону <b>{SITE_CONFIG.phone}</b> или по адресу: {SITE_CONFIG.address}.
+            По всем вопросам, связанным с обработкой персональных данных, вы можете обращаться по телефону <b>{SITE_CONFIG.phoneCall}</b> или по адресу: {SITE_CONFIG.address}.
           </p>
         </div>
 

@@ -6,7 +6,7 @@ import { trackLeadConversion } from '../lib/analytics';
 export const LeadForm: React.FC = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [city, setCity] = useState('Алматы');
+  const [city, setCity] = useState('Шымкент');
   const [preferredContact, setPreferredContact] = useState<'whatsapp' | 'call' | 'telegram'>('whatsapp');
   const [honeypot, setHoneypot] = useState('');
   const [agree, setAgree] = useState(true);

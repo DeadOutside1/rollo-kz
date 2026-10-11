@@ -15,8 +15,10 @@ import { PrivacyPolicyModal } from './components/PrivacyPolicyModal';
 import { CookieBanner } from './components/CookieBanner';
 import { initAnalytics } from './lib/analytics';
 import { BlindTypeId } from './types';
+import { Language } from './config/i18n';
 
 export const App: React.FC = () => {
+  const [lang, setLang] = useState<Language>('ru');
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [modalProductName, setModalProductName] = useState<string | undefined>(undefined);
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
@@ -25,6 +27,10 @@ export const App: React.FC = () => {
   useEffect(() => {
     initAnalytics();
   }, []);
+
+  const handleToggleLang = () => {
+    setLang((prev) => (prev === 'ru' ? 'kz' : 'ru'));
+  };
 
   const handleOpenCalculator = (typeId?: string) => {
     if (typeId) {
@@ -45,6 +51,8 @@ export const App: React.FC = () => {
     <div className="min-h-screen flex flex-col bg-surface-light text-gray-900 selection:bg-brand-500 selection:text-white">
       {/* Fixed Sticky Header */}
       <Header
+        lang={lang}
+        onToggleLang={handleToggleLang}
         onOpenCalculator={() => handleOpenCalculator()}
         onOpenOrderModal={handleOpenOrderModal}
       />
@@ -52,7 +60,10 @@ export const App: React.FC = () => {
       {/* Main Page Content */}
       <main className="flex-1">
         {/* 1. Hero Screen */}
-        <Hero onScrollToCalculator={() => handleOpenCalculator()} />
+        <Hero
+          lang={lang}
+          onScrollToCalculator={() => handleOpenCalculator()}
+        />
 
         {/* 2. Catalog Section */}
         <Catalog
@@ -63,7 +74,7 @@ export const App: React.FC = () => {
         {/* 3. Interactive 5-Step Calculator */}
         <Calculator initialBlindType={calculatorType} />
 
-        {/* 4. Advantages & Production (About Us) */}
+        {/* 4. Advantages & Production (About Us in Shymkent) */}
         <Advantages />
 
         {/* 5. How We Work (4 Steps) */}
@@ -79,8 +90,10 @@ export const App: React.FC = () => {
         <LeadForm />
       </main>
 
-      {/* Footer */}
+      {/* Footer with Language Switcher */}
       <Footer
+        lang={lang}
+        onToggleLang={handleToggleLang}
         onOpenPrivacy={() => setIsPrivacyModalOpen(true)}
         onOpenOrderModal={() => handleOpenOrderModal()}
       />

@@ -1,14 +1,22 @@
 import React from 'react';
-import { Phone, MessageCircle, Instagram, MapPin, Clock, ArrowUp } from 'lucide-react';
+import { Phone, MessageCircle, Instagram, MapPin, Clock, ArrowUp, Globe, FileText } from 'lucide-react';
 import { SITE_CONFIG } from '../config/site';
+import { Language } from '../config/i18n';
 import { trackPhoneClick, trackWhatsAppClick } from '../lib/analytics';
 
 interface FooterProps {
+  lang: Language;
+  onToggleLang: () => void;
   onOpenPrivacy: () => void;
   onOpenOrderModal: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenOrderModal }) => {
+export const Footer: React.FC<FooterProps> = ({
+  lang,
+  onToggleLang,
+  onOpenPrivacy,
+  onOpenOrderModal,
+}) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -33,15 +41,23 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenOrderModal 
               </div>
               <span className="text-2xl font-black tracking-tight">ROLLO<span className="text-brand-500">.KZ</span></span>
             </div>
+            
             <p className="text-sm text-gray-400 leading-relaxed">
-              Изготовление и установка всех видов жалюзи и рулонных штор на заказ в Алматы и по Казахстану с 2007 года.
+              {lang === 'ru'
+                ? 'Шымкент қаласында барлық түрдегі жалюзи мен ролл-перделерді тікелей цехтан дайындау және орнату.'
+                : 'Шымкент қаласында барлық түрдегі жалюзи мен ролл-перделерді тікелей цехтан дайындау және орнату.'}
             </p>
+
+            <div className="text-xs text-gray-400">
+              {SITE_CONFIG.legalName} • {SITE_CONFIG.office}
+            </div>
+
             <div className="pt-2 flex items-center gap-3">
               <a
-                href={`tel:${SITE_CONFIG.phoneRaw}`}
+                href={`tel:${SITE_CONFIG.phoneCallRaw}`}
                 onClick={trackPhoneClick}
                 className="w-9 h-9 rounded-full bg-gray-800 hover:bg-brand-600 flex items-center justify-center text-gray-300 hover:text-white transition-colors"
-                aria-label="Телефон"
+                title={`Позвонить: ${SITE_CONFIG.phoneCall}`}
               >
                 <Phone className="w-4 h-4" />
               </a>
@@ -51,7 +67,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenOrderModal 
                 rel="noopener noreferrer"
                 onClick={trackWhatsAppClick}
                 className="w-9 h-9 rounded-full bg-gray-800 hover:bg-green-600 flex items-center justify-center text-gray-300 hover:text-white transition-colors"
-                aria-label="WhatsApp"
+                title={`WhatsApp: ${SITE_CONFIG.whatsappPhone}`}
               >
                 <MessageCircle className="w-4 h-4" />
               </a>
@@ -60,7 +76,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenOrderModal 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full bg-gray-800 hover:bg-pink-600 flex items-center justify-center text-gray-300 hover:text-white transition-colors"
-                aria-label="Instagram"
+                title={SITE_CONFIG.instagramHandle}
               >
                 <Instagram className="w-4 h-4" />
               </a>
@@ -70,29 +86,38 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenOrderModal 
           {/* Col 2: Navigation Links */}
           <div>
             <h4 className="text-sm font-bold uppercase tracking-wider text-gray-200 mb-4">
-              Разделы сайта
+              {lang === 'ru' ? 'Разделы сайта' : 'Сайт бөлімдері'}
             </h4>
             <ul className="space-y-2.5 text-sm text-gray-400">
-              <li><a href="#catalog" className="hover:text-white transition-colors">Каталог изделий</a></li>
-              <li><a href="#calculator" className="hover:text-white transition-colors">Онлайн-калькулятор</a></li>
-              <li><a href="#how-it-works" className="hover:text-white transition-colors">Этапы работы</a></li>
-              <li><a href="#about" className="hover:text-white transition-colors">О производстве</a></li>
-              <li><a href="#portfolio" className="hover:text-white transition-colors">Наши работы</a></li>
-              <li><a href="#reviews" className="hover:text-white transition-colors">Отзывы клиентов</a></li>
+              <li><a href="#catalog" className="hover:text-white transition-colors">{lang === 'ru' ? 'Каталог изделий' : 'Өнімдер каталогы'}</a></li>
+              <li><a href="#calculator" className="hover:text-white transition-colors">{lang === 'ru' ? 'Онлайн-калькулятор' : 'Онлайн-калькулятор'}</a></li>
+              <li><a href="#how-it-works" className="hover:text-white transition-colors">{lang === 'ru' ? 'Этапы работы' : 'Жұмыс кезеңдері'}</a></li>
+              <li><a href="#about" className="hover:text-white transition-colors">{lang === 'ru' ? 'О производстве в Шымкенте' : 'Шымкенттегі өндіріс'}</a></li>
+              <li><a href="#portfolio" className="hover:text-white transition-colors">{lang === 'ru' ? 'Наши работы' : 'Біздің жұмыстар'}</a></li>
+              <li>
+                <a
+                  href={SITE_CONFIG.catalogPdfUrl}
+                  download="Rollo_kz_Catalog.pdf"
+                  className="hover:text-brand-400 transition-colors flex items-center gap-1.5 text-brand-300 font-semibold"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>{lang === 'ru' ? 'Скачать PDF каталог' : 'PDF каталогты жүктеу'}</span>
+                </a>
+              </li>
             </ul>
           </div>
 
           {/* Col 3: Catalog Categories */}
           <div>
             <h4 className="text-sm font-bold uppercase tracking-wider text-gray-200 mb-4">
-              Виды жалюзи
+              {lang === 'ru' ? 'Виды жалюзи от 7 000 ₸' : 'Жалюзи түрлері (7 000 ₸ бастап)'}
             </h4>
             <ul className="space-y-2.5 text-sm text-gray-400">
-              <li><a href="#catalog" className="hover:text-white transition-colors">Шторы «День-ночь»</a></li>
-              <li><a href="#catalog" className="hover:text-white transition-colors">Вертикальные тканевые</a></li>
+              <li><a href="#catalog" className="hover:text-white transition-colors">Шторы «День-ночь» (Күн-түн)</a></li>
+              <li><a href="#catalog" className="hover:text-white transition-colors">Вертикальные тканевые жалюзи</a></li>
               <li><a href="#catalog" className="hover:text-white transition-colors">Горизонтальные алюминиевые</a></li>
               <li><a href="#catalog" className="hover:text-white transition-colors">Рулонные шторы Blackout</a></li>
-              <li><a href="#catalog" className="hover:text-white transition-colors">Двойные роллы</a></li>
+              <li><a href="#catalog" className="hover:text-white transition-colors">Двойные роллы (Қос ролл)</a></li>
               <li><a href="#catalog" className="hover:text-white transition-colors">Фото-жалюзи с рисунком</a></li>
             </ul>
           </div>
@@ -100,36 +125,78 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenOrderModal 
           {/* Col 4: Contacts & Call to Action */}
           <div className="space-y-3.5">
             <h4 className="text-sm font-bold uppercase tracking-wider text-gray-200 mb-4">
-              Контакты
+              {lang === 'ru' ? 'Контакты в Шымкенте' : 'Шымкенттегі байланыс'}
             </h4>
-            <div className="flex items-start gap-2.5 text-sm text-gray-400">
+            
+            <div className="flex items-start gap-2.5 text-sm text-gray-300">
               <MapPin className="w-4 h-4 text-brand-400 shrink-0 mt-0.5" />
               <span>{SITE_CONFIG.address}</span>
             </div>
+
             <div className="flex items-center gap-2.5 text-sm text-gray-400">
               <Clock className="w-4 h-4 text-brand-400 shrink-0" />
               <span>{SITE_CONFIG.workingHours}</span>
             </div>
-            <div className="flex items-center gap-2.5 text-base font-bold text-white pt-1">
-              <Phone className="w-4 h-4 text-brand-400 shrink-0" />
-              <a href={`tel:${SITE_CONFIG.phoneRaw}`} onClick={trackPhoneClick} className="hover:text-brand-400">
-                {SITE_CONFIG.phone}
-              </a>
+
+            {/* Phone 1: Calls */}
+            <div className="pt-1">
+              <div className="text-[11px] text-gray-400 uppercase font-semibold">Қоңырау шалу / Для звонков:</div>
+              <div className="flex items-center gap-2 text-base font-black text-white">
+                <Phone className="w-4 h-4 text-brand-400 shrink-0" />
+                <a href={`tel:${SITE_CONFIG.phoneCallRaw}`} onClick={trackPhoneClick} className="hover:text-brand-400">
+                  {SITE_CONFIG.phoneCall}
+                </a>
+              </div>
             </div>
+
+            {/* Phone 2: WhatsApp */}
+            <div>
+              <div className="text-[11px] text-gray-400 uppercase font-semibold">WhatsApp консультация:</div>
+              <div className="flex items-center gap-2 text-base font-black text-green-400">
+                <MessageCircle className="w-4 h-4 text-green-400 shrink-0" />
+                <a href={SITE_CONFIG.whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={trackWhatsAppClick} className="hover:underline">
+                  {SITE_CONFIG.whatsappPhone}
+                </a>
+              </div>
+            </div>
+
             <button
               onClick={onOpenOrderModal}
-              className="w-full mt-3 py-2.5 px-4 rounded-xl bg-brand-500 hover:bg-brand-400 text-white font-bold text-xs tracking-wide transition-colors"
+              className="w-full mt-3 py-2.5 px-4 rounded-xl bg-brand-500 hover:bg-brand-400 text-white font-bold text-xs tracking-wide transition-colors cursor-pointer"
             >
-              Вызвать замерщика
+              {lang === 'ru' ? 'Вызвать замерщика в Шымкенте' : 'Шымкентте өлшеушіні шақыру'}
             </button>
           </div>
 
         </div>
 
-        {/* Bottom Sub-footer */}
+        {/* Bottom Sub-footer with Language Switcher */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
           <div>
-            © {new Date().getFullYear()} ROLLO.KZ. Все права защищены. Made by {SITE_CONFIG.author}.
+            © {new Date().getFullYear()} ROLLO.KZ ({SITE_CONFIG.legalName}). {lang === 'ru' ? 'Шымкент, Казахстан.' : 'Шымкент, Қазақстан.'} Made by {SITE_CONFIG.author}.
+          </div>
+
+          {/* Language Selector in footer */}
+          <div className="flex items-center gap-2 bg-gray-900 px-3 py-1.5 rounded-xl border border-gray-800">
+            <Globe className="w-3.5 h-3.5 text-brand-400" />
+            <span className="text-gray-400 font-medium">Тіл / Язык:</span>
+            <button
+              onClick={() => { if (lang !== 'ru') onToggleLang(); }}
+              className={`px-2 py-0.5 rounded text-xs font-bold transition-colors cursor-pointer ${
+                lang === 'ru' ? 'bg-brand-600 text-white' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              РУС
+            </button>
+            <span className="text-gray-600">|</span>
+            <button
+              onClick={() => { if (lang !== 'kz') onToggleLang(); }}
+              className={`px-2 py-0.5 rounded text-xs font-bold transition-colors cursor-pointer ${
+                lang === 'kz' ? 'bg-brand-600 text-white' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              ҚАЗ
+            </button>
           </div>
 
           <div className="flex items-center gap-6">
@@ -137,14 +204,14 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenOrderModal 
               onClick={onOpenPrivacy}
               className="hover:text-gray-300 transition-colors underline cursor-pointer"
             >
-              Политика конфиденциальности
+              {lang === 'ru' ? 'Политика конфиденциальности' : 'Құпиялылық саясаты'}
             </button>
 
             <button
               onClick={scrollToTop}
               className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer"
             >
-              <span>Наверх</span>
+              <span>{lang === 'ru' ? 'Наверх' : 'Жоғарыға'}</span>
               <ArrowUp className="w-3.5 h-3.5" />
             </button>
           </div>

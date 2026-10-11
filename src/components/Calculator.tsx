@@ -34,7 +34,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ initialBlindType }) => {
   // Form submission state
   const [clientName, setClientName] = useState('');
   const [clientPhone, setClientPhone] = useState('');
-  const [clientCity, setClientCity] = useState('Алматы');
+  const [clientCity, setClientCity] = useState('Шымкент');
   const [honeypot, setHoneypot] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
