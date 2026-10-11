@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rollo.kz/sitemap.xml
