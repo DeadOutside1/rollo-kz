@@ -8,7 +8,7 @@ export const SITE_CONFIG = {
   whatsappPhone: '+7 (705) 368-39-34',
   whatsappPhoneRaw: '+77053683934',
   whatsappUrl: 'https://wa.me/77053683934?text=%D0%A1%D3%99%D0%BB%D0%B5%D0%BC%D0%B5%D1%82%D1%81%D1%96%D0%B7%D0%B1%D0%B5%21%20%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C%20%D0%B6%D0%B0%D0%BB%D1%8E%D0%B7%D0%B8%20%D0%B2%20%D0%A8%D1%8B%D0%BC%D0%BA%D0%B5%D0%BD%D1%82%D0%B5',
-  instagramUrl: 'https://instagram.com/jalyzi_rollo.kz',
+  instagramUrl: 'https://www.instagram.com/jalyzi_rollo.kz/',
   instagramHandle: '@jalyzi_rollo.kz',
   city: 'г. Шымкент',
   region: 'г. Шымкент и Туркестанская область',
