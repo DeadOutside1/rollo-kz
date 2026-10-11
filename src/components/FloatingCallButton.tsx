@@ -28,7 +28,7 @@ export const FloatingCallButton: React.FC<FloatingCallButtonProps> = ({ onScroll
               Шымкент • Байланыс
             </div>
             
-            {/* Phone for calls */}
+            {/* Phone for calls (Primary) */}
             <a
               href={`tel:${SITE_CONFIG.phoneCallRaw}`}
               onClick={handlePhone}
@@ -38,27 +38,47 @@ export const FloatingCallButton: React.FC<FloatingCallButtonProps> = ({ onScroll
                 <Phone className="w-4 h-4" />
               </div>
               <div>
-                <div className="font-bold">Қоңырау шалу</div>
+                <div className="font-bold flex items-center gap-1.5">
+                  <span>Қоңырау шалу</span>
+                  <span className="text-[10px] px-1 py-0.2 rounded bg-brand-100 text-brand-800 font-semibold">Негізгі</span>
+                </div>
                 <div className="text-[11px] text-gray-600 font-medium">{SITE_CONFIG.phoneCall}</div>
               </div>
             </a>
 
-            {/* WhatsApp */}
+            {/* WhatsApp (Primary) */}
             <a
               href={SITE_CONFIG.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={handleWhatsApp}
-              className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-gray-50 text-gray-900 font-semibold text-xs transition-colors"
+              className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-green-50/50 text-gray-900 font-semibold text-xs transition-colors"
             >
               <div className="w-8 h-8 rounded-lg bg-green-100 text-green-700 flex items-center justify-center shrink-0">
                 <MessageCircle className="w-4 h-4" />
               </div>
               <div>
-                <div className="font-bold">WhatsApp консультация</div>
+                <div className="font-bold text-green-800">WhatsApp (Основной)</div>
                 <div className="text-[11px] text-gray-600 font-medium">{SITE_CONFIG.whatsappPhone}</div>
               </div>
             </a>
+
+            {/* Alternative Phone */}
+            <div className="pt-1 border-t border-gray-100">
+              <a
+                href={`tel:${SITE_CONFIG.phoneAltRaw}`}
+                onClick={handlePhone}
+                className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-gray-50 text-gray-700 font-medium text-xs transition-colors"
+              >
+                <div className="w-7 h-7 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center shrink-0">
+                  <Phone className="w-3.5 h-3.5" />
+                </div>
+                <div>
+                  <div className="text-[11px] font-semibold text-gray-800">Қосымша / Доп:</div>
+                  <div className="text-[11px] text-gray-600 font-medium">{SITE_CONFIG.phoneAlt}</div>
+                </div>
+              </a>
+            </div>
           </div>
         )}
 

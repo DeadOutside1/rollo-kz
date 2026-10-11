@@ -79,7 +79,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onScrollToCalculator }) => {
   };
 
   return (
-    <section className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-gradient-to-b from-brand-50/60 via-white to-surface-light">
+    <section className="relative pt-36 sm:pt-40 md:pt-44 pb-16 md:pb-24 overflow-hidden bg-gradient-to-b from-brand-50/60 via-white to-surface-light">
       <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-brand-100/50 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-brand-200/30 rounded-full blur-2xl pointer-events-none" />
 
@@ -88,9 +88,9 @@ export const Hero: React.FC<HeroProps> = ({ lang, onScrollToCalculator }) => {
           
           {/* Left Column: Text & Value proposition */}
           <div className="lg:col-span-7 flex flex-col items-start">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-100 border border-brand-200/80 text-brand-800 text-xs sm:text-sm font-semibold mb-6 shadow-xs">
-              <Sparkles className="w-4 h-4 text-brand-600" />
-              <span>{t.heroBadge}</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-100 border border-brand-200/80 text-brand-900 text-xs sm:text-sm font-semibold mb-6 shadow-xs max-w-full">
+              <Sparkles className="w-4 h-4 text-brand-600 shrink-0" />
+              <span className="leading-snug">{t.heroBadge}</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-extrabold text-gray-900 leading-[1.15] tracking-tight mb-5 text-balance">

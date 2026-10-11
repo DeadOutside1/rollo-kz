@@ -144,21 +144,27 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right Phone & CTA */}
           <div className="flex items-center gap-3">
-            <a
-              href={`tel:${SITE_CONFIG.phoneCallRaw}`}
-              onClick={handlePhoneClick}
-              className="hidden sm:flex flex-col items-end text-right group"
-            >
-              <div className="flex items-center gap-1.5 text-sm font-bold text-gray-900 group-hover:text-brand-700 transition-colors">
+            <div className="hidden sm:flex flex-col items-end text-right">
+              <a
+                href={`tel:${SITE_CONFIG.phoneCallRaw}`}
+                onClick={handlePhoneClick}
+                className="flex items-center gap-1.5 text-sm font-bold text-gray-900 hover:text-brand-700 transition-colors"
+              >
                 <Phone className="w-3.5 h-3.5 text-brand-600" />
                 <span>{SITE_CONFIG.phoneCall}</span>
+              </a>
+              <div className="flex items-center gap-1.5 text-[11px] text-gray-500">
+                <span className="text-brand-700 font-semibold">{lang === 'ru' ? 'Основной' : 'Негізгі'}</span>
+                <span>•</span>
+                <a href={`tel:${SITE_CONFIG.phoneAltRaw}`} onClick={handlePhoneClick} className="hover:text-brand-700">
+                  {SITE_CONFIG.phoneAlt} ({lang === 'ru' ? 'доп' : 'қосымша'})
+                </a>
               </div>
-              <span className="text-[11px] text-brand-600 font-medium">Шымкент • Қоңырау шалу</span>
-            </a>
+            </div>
 
             <button
               onClick={() => onOpenOrderModal()}
-              className="hidden md:inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-brand-800 hover:bg-brand-700 active:scale-95 rounded-xl shadow-sm transition-all"
+              className="hidden md:inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-brand-800 hover:bg-brand-700 active:scale-95 rounded-xl shadow-sm transition-all cursor-pointer"
             >
               {lang === 'ru' ? 'Оставить заявку' : 'Өтініш беру'}
             </button>
@@ -186,7 +192,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
                 <button
                   onClick={onToggleLang}
-                  className="px-3 py-1 rounded-lg bg-brand-100 text-brand-900 text-xs font-bold flex items-center gap-1.5"
+                  className="px-3 py-1 rounded-lg bg-brand-100 text-brand-900 text-xs font-bold flex items-center gap-1.5 cursor-pointer"
                 >
                   <Globe className="w-3.5 h-3.5 text-brand-700" />
                   <span>{lang === 'ru' ? 'Ауыстыру: ҚАЗАҚША' : 'Сменить: РУССКИЙ'}</span>
@@ -258,32 +264,66 @@ export const Header: React.FC<HeaderProps> = ({
               </a>
 
               <div className="pt-3 border-t border-gray-100 flex flex-col gap-2.5">
-                <a
-                  href={`tel:${SITE_CONFIG.phoneCallRaw}`}
-                  onClick={handlePhoneClick}
-                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border border-gray-200 text-gray-900 font-bold"
-                >
-                  <Phone className="w-4 h-4 text-brand-600" />
-                  {SITE_CONFIG.phoneCall}
-                </a>
+                {/* Primary Contact */}
+                <div>
+                  <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">
+                    {lang === 'ru' ? 'Основной телефон и WhatsApp:' : 'Негізгі телефон және WhatsApp:'}
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <a
+                      href={`tel:${SITE_CONFIG.phoneCallRaw}`}
+                      onClick={handlePhoneClick}
+                      className="flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl border border-gray-200 text-gray-900 font-bold text-xs"
+                    >
+                      <Phone className="w-3.5 h-3.5 text-brand-600" />
+                      <span>{SITE_CONFIG.phoneCall}</span>
+                    </a>
+                    <a
+                      href={SITE_CONFIG.whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={handleWhatsAppClick}
+                      className="flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl bg-green-600 text-white font-bold text-xs"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5" />
+                      <span>WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
 
-                <a
-                  href={SITE_CONFIG.whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={handleWhatsAppClick}
-                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-green-600 text-white font-bold"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>WhatsApp: {SITE_CONFIG.whatsappPhone}</span>
-                </a>
+                {/* Alternative Contact */}
+                <div>
+                  <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">
+                    {lang === 'ru' ? 'Дополнительный номер (резервный):' : 'Қосымша нөмір (резерв):'}
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <a
+                      href={`tel:${SITE_CONFIG.phoneAltRaw}`}
+                      onClick={handlePhoneClick}
+                      className="flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl border border-gray-200 text-gray-700 font-bold text-xs"
+                    >
+                      <Phone className="w-3.5 h-3.5 text-gray-500" />
+                      <span>{SITE_CONFIG.phoneAlt}</span>
+                    </a>
+                    <a
+                      href={SITE_CONFIG.whatsappAltUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={handleWhatsAppClick}
+                      className="flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl bg-gray-100 text-gray-800 font-bold text-xs hover:bg-gray-200"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5 text-green-600" />
+                      <span>WhatsApp 2</span>
+                    </a>
+                  </div>
+                </div>
 
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     onOpenOrderModal();
                   }}
-                  className="w-full py-2.5 rounded-xl bg-brand-800 text-white font-semibold shadow-sm"
+                  className="w-full mt-1 py-2.5 rounded-xl bg-brand-800 text-white font-semibold shadow-sm cursor-pointer"
                 >
                   {lang === 'ru' ? 'Оставить заявку на замер' : 'Өлшеуге өтініш беру'}
                 </button>

@@ -110,15 +110,15 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Col 3: Catalog Categories */}
           <div>
             <h4 className="text-sm font-bold uppercase tracking-wider text-gray-200 mb-4">
-              {lang === 'ru' ? 'Виды жалюзи от 7 000 ₸' : 'Жалюзи түрлері (7 000 ₸ бастап)'}
+              {lang === 'ru' ? 'Виды жалюзи от 4 500 ₸' : 'Жалюзи түрлері (4 500 ₸ бастап)'}
             </h4>
             <ul className="space-y-2.5 text-sm text-gray-400">
-              <li><a href="#catalog" className="hover:text-white transition-colors">Шторы «День-ночь» (Күн-түн)</a></li>
-              <li><a href="#catalog" className="hover:text-white transition-colors">Вертикальные тканевые жалюзи</a></li>
+              <li><a href="#catalog" className="hover:text-white transition-colors">Вертикальные тканевые жалюзи (от 4 500 ₸)</a></li>
+              <li><a href="#catalog" className="hover:text-white transition-colors">Рулонные шторы (Roll-шторы)</a></li>
               <li><a href="#catalog" className="hover:text-white transition-colors">Горизонтальные алюминиевые</a></li>
-              <li><a href="#catalog" className="hover:text-white transition-colors">Рулонные шторы Blackout</a></li>
-              <li><a href="#catalog" className="hover:text-white transition-colors">Двойные роллы (Қос ролл)</a></li>
-              <li><a href="#catalog" className="hover:text-white transition-colors">Фото-жалюзи с рисунком</a></li>
+              <li><a href="#catalog" className="hover:text-white transition-colors">Шторы «День - ночь» (Зебра)</a></li>
+              <li><a href="#catalog" className="hover:text-white transition-colors">Фото-жалюзи с принтом</a></li>
+              <li><a href="#catalog" className="hover:text-white transition-colors">Двойные роллы (Премиум)</a></li>
             </ul>
           </div>
 
@@ -138,24 +138,48 @@ export const Footer: React.FC<FooterProps> = ({
               <span>{SITE_CONFIG.workingHours}</span>
             </div>
 
-            {/* Phone 1: Calls */}
+            {/* Primary Phone: Calls & WhatsApp */}
             <div className="pt-1">
-              <div className="text-[11px] text-gray-400 uppercase font-semibold">Қоңырау шалу / Для звонков:</div>
-              <div className="flex items-center gap-2 text-base font-black text-white">
+              <div className="text-[11px] text-brand-400 uppercase font-bold tracking-wider">
+                {lang === 'ru' ? 'Основной (Звонки и WhatsApp):' : 'Негізгі (Қоңырау және WhatsApp):'}
+              </div>
+              <div className="flex items-center gap-2 text-base font-black text-white mt-0.5">
                 <Phone className="w-4 h-4 text-brand-400 shrink-0" />
                 <a href={`tel:${SITE_CONFIG.phoneCallRaw}`} onClick={trackPhoneClick} className="hover:text-brand-400">
                   {SITE_CONFIG.phoneCall}
                 </a>
+                <a
+                  href={SITE_CONFIG.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={trackWhatsAppClick}
+                  className="ml-auto text-xs font-bold text-green-400 hover:text-green-300 flex items-center gap-1 bg-green-950/60 px-2 py-0.5 rounded-md border border-green-800"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>WhatsApp</span>
+                </a>
               </div>
             </div>
 
-            {/* Phone 2: WhatsApp */}
-            <div>
-              <div className="text-[11px] text-gray-400 uppercase font-semibold">WhatsApp консультация:</div>
-              <div className="flex items-center gap-2 text-base font-black text-green-400">
-                <MessageCircle className="w-4 h-4 text-green-400 shrink-0" />
-                <a href={SITE_CONFIG.whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={trackWhatsAppClick} className="hover:underline">
-                  {SITE_CONFIG.whatsappPhone}
+            {/* Alternative Phone: Calls & WhatsApp */}
+            <div className="pt-1 border-t border-gray-800">
+              <div className="text-[11px] text-gray-400 uppercase font-semibold">
+                {lang === 'ru' ? 'Дополнительный (резервный):' : 'Қосымша (резервтік):'}
+              </div>
+              <div className="flex items-center gap-2 text-sm font-bold text-gray-300 mt-0.5">
+                <Phone className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+                <a href={`tel:${SITE_CONFIG.phoneAltRaw}`} onClick={trackPhoneClick} className="hover:text-white">
+                  {SITE_CONFIG.phoneAlt}
+                </a>
+                <a
+                  href={SITE_CONFIG.whatsappAltUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={trackWhatsAppClick}
+                  className="ml-auto text-xs font-medium text-gray-300 hover:text-white flex items-center gap-1 bg-gray-800/80 px-2 py-0.5 rounded-md"
+                >
+                  <MessageCircle className="w-3.5 h-3.5 text-green-400" />
+                  <span>WA 2</span>
                 </a>
               </div>
             </div>
