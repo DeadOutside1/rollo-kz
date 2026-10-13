@@ -114,6 +114,8 @@ export function trackPhoneClick() {
   if (googleAdsId && googleAdsCallLabel && typeof window.gtag === 'function') {
     window.gtag('event', 'conversion', {
       send_to: `${googleAdsId}/${googleAdsCallLabel}`,
+      value: 1.0,
+      currency: 'USD',
     });
   }
 
@@ -134,6 +136,8 @@ export function trackWhatsAppClick() {
   if (googleAdsId && googleAdsWhatsAppLabel && typeof window.gtag === 'function') {
     window.gtag('event', 'conversion', {
       send_to: `${googleAdsId}/${googleAdsWhatsAppLabel}`,
+      value: 1.0,
+      currency: 'USD',
     });
   }
 
