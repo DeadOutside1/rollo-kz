@@ -18,7 +18,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const data = req.body || {};
+    let data = req.body;
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch {
+        data = {};
+      }
+    }
+    data = data || {};
 
     // 2. Anti-spam honeypot check
     if (data.honeypot && String(data.honeypot).trim() !== '') {
@@ -33,7 +41,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // 3. Validation
     const name = String(data.name || '').trim();
     const phone = String(data.phone || '').trim();
-    const city = String(data.city || 'Алматы').trim();
+    const city = String(data.city || 'Шымкент').trim();
 
     if (!name || name.length < 2) {
       return res.status(400).json({ ok: false, error: 'Пожалуйста, укажите ваше имя (минимум 2 буквы).' });
@@ -87,11 +95,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       `⏰ <b>Время заявки:</b> ${escapeHtml(nowKZ)} (KZ)`,
     ].join('\n');
 
-    const defaultToken = Buffer.from('ODYzNDMxNDg0MTpBQUhmX0w5M1QtVGd6ZFVCQjc5Skt3U05MUEl6dndid3c0aw==', 'base64').toString('utf-8');
+    const defaultToken = '8634314841:AAHf_L93T-TgzdUBB79JKwSNLPIZvwbw40k';
     const defaultChatId = '-1004260036949';
 
-    const token = process.env.TELEGRAM_BOT_TOKEN || defaultToken;
-    const chatId = process.env.TELEGRAM_CHAT_ID || defaultChatId;
+    const token = (process.env.TELEGRAM_BOT_TOKEN || defaultToken).trim();
+    const chatId = (process.env.TELEGRAM_CHAT_ID || defaultChatId).trim();
 
     // 5. Check if credentials are set
     if (!token || !chatId) {
@@ -105,7 +113,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // 6. Send to Telegram API
-    const tgUrl = `https://api.telegram.org/bot${encodeURIComponent(token)}/sendMessage`;
+    const tgUrl = `https://api.telegram.org/bot${token}/sendMessage`;
     const tgRes = await fetch(tgUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -119,10 +127,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const tgData = await tgRes.json();
 
     if (!tgRes.ok || !tgData.ok) {
-      console.error('Telegram API error:', tgData?.description || 'Unknown error');
+      const tgError = tgData?.description || `HTTP ${tgRes.status}`;
+      console.error('Telegram API error:', tgError);
       return res.status(502).json({
         ok: false,
         error: 'Не удалось доставить сообщение в Telegram. Пожалуйста, позвоните нам по телефону.',
+        details: tgError,
       });
     }
 
@@ -136,6 +146,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({
       ok: false,
       error: 'Произошла непредвиденная ошибка на сервере. Попробуйте еще раз или свяжитесь с нами по телефону.',
+      details: error?.message || String(error),
     });
   }
 }
