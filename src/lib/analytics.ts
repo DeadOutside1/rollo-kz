@@ -89,8 +89,8 @@ export function trackLeadConversion(leadId: string, value?: number | null) {
     const sendTo = `${googleAdsId}/${googleAdsLeadLabel}`;
     window.gtag('event', 'conversion', {
       send_to: sendTo,
-      value: value || 1,
-      currency: 'KZT',
+      value: value || 1.0,
+      currency: 'USD',
       transaction_id: leadId,
     });
   }
