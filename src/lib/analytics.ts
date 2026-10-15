@@ -14,60 +14,34 @@ const trackedLeadIds = new Set<string>();
  * Initialize Google Tag and Consent Mode v2
  */
 export function initAnalytics() {
-  const { googleAdsId, ga4MeasurementId, defaultConsent } = ANALYTICS_CONFIG;
+  if (typeof window === 'undefined') return;
 
-  if (!googleAdsId && !ga4MeasurementId) {
-    // Analytics not configured, skip loading scripts
-    return;
-  }
-
-  // Ensure dataLayer exists
   window.dataLayer = window.dataLayer || [];
-  function gtag(...args: any[]) {
-    window.dataLayer?.push(args);
-  }
-  window.gtag = gtag;
-
-  // Setup Default Consent Mode v2 before any tags load
-  gtag('consent', 'default', defaultConsent);
-  gtag('js', new Date());
-
-  // Configure Google Ads if present
-  if (googleAdsId) {
-    gtag('config', googleAdsId);
+  if (typeof window.gtag !== 'function') {
+    function gtag() {
+      window.dataLayer?.push(arguments);
+    }
+    window.gtag = gtag as any;
   }
 
-  // Configure GA4 if present
-  if (ga4MeasurementId) {
-    gtag('config', ga4MeasurementId, {
-      send_page_view: true,
-    });
-  }
-
-  // Inject Google Tag script only once
-  const tagId = googleAdsId || ga4MeasurementId;
-  const scriptId = 'google-tag-manager';
-  if (tagId && !document.getElementById(scriptId)) {
-    const script = document.createElement('script');
-    script.id = scriptId;
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(tagId)}`;
-    document.head.appendChild(script);
+  const { ga4MeasurementId } = ANALYTICS_CONFIG;
+  if (ga4MeasurementId && typeof window.gtag === 'function') {
+    window.gtag('config', ga4MeasurementId, { send_page_view: true });
   }
 }
 
 /**
- * Update Consent Mode when user confirms cookie settings
+ * Update Consent Mode
  */
-export function updateConsent(granted: boolean) {
-  if (typeof window.gtag !== 'function') return;
+export function updateConsent(_granted?: boolean) {
+  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
 
-  const status = granted ? 'granted' : 'denied';
+  // For KZ, always keep analytics active
   window.gtag('consent', 'update', {
-    ad_storage: status,
-    analytics_storage: status,
-    ad_user_data: status,
-    ad_personalization: status,
+    ad_storage: 'granted',
+    analytics_storage: 'granted',
+    ad_user_data: 'granted',
+    ad_personalization: 'granted',
   });
 }
 
@@ -98,12 +72,26 @@ export function trackLeadConversion(leadId: string, value?: number | null) {
   // Google Ads Lead Conversion
   if (googleAdsId && googleAdsLeadLabel) {
     const sendTo = `${googleAdsId}/${googleAdsLeadLabel}`;
+    
+    // 1. Standard gtag event call
     safeGtag('event', 'conversion', {
       send_to: sendTo,
       value: value || 1.0,
       currency: 'KZT',
       transaction_id: leadId,
     });
+
+    // 2. Direct dataLayer push for Tag Assistant / GTM inspection
+    if (typeof window !== 'undefined' && Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({
+        event: 'conversion',
+        send_to: sendTo,
+        value: value || 1.0,
+        currency: 'KZT',
+        transaction_id: leadId,
+      });
+    }
+
     console.log('🎯 [Google Ads] Lead Conversion fired:', sendTo, { leadId, value });
   }
 
