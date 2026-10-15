@@ -71,6 +71,17 @@ export function updateConsent(granted: boolean) {
   });
 }
 
+function safeGtag(...args: any[]) {
+  if (typeof window !== 'undefined') {
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag === 'function') {
+      window.gtag(...args);
+    } else {
+      window.dataLayer.push(arguments);
+    }
+  }
+}
+
 /**
  * Track Primary Conversion: Confirmed Lead Submission
  * Fired ONLY when the server confirms successful lead processing!
@@ -85,19 +96,20 @@ export function trackLeadConversion(leadId: string, value?: number | null) {
   const { googleAdsId, googleAdsLeadLabel } = ANALYTICS_CONFIG;
 
   // Google Ads Lead Conversion
-  if (googleAdsId && googleAdsLeadLabel && typeof window.gtag === 'function') {
+  if (googleAdsId && googleAdsLeadLabel) {
     const sendTo = `${googleAdsId}/${googleAdsLeadLabel}`;
-    window.gtag('event', 'conversion', {
+    safeGtag('event', 'conversion', {
       send_to: sendTo,
       value: value || 1.0,
-      currency: 'USD',
+      currency: 'KZT',
       transaction_id: leadId,
     });
+    console.log('🎯 [Google Ads] Lead Conversion fired:', sendTo, { leadId, value });
   }
 
   // GA4 custom event (NO PII transmitted!)
-  if (ANALYTICS_CONFIG.ga4MeasurementId && typeof window.gtag === 'function') {
-    window.gtag('event', 'generate_lead', {
+  if (ANALYTICS_CONFIG.ga4MeasurementId) {
+    safeGtag('event', 'generate_lead', {
       value: value || 0,
       currency: 'KZT',
       lead_id: leadId,
@@ -111,16 +123,18 @@ export function trackLeadConversion(leadId: string, value?: number | null) {
 export function trackPhoneClick() {
   const { googleAdsId, googleAdsCallLabel } = ANALYTICS_CONFIG;
 
-  if (googleAdsId && googleAdsCallLabel && typeof window.gtag === 'function') {
-    window.gtag('event', 'conversion', {
-      send_to: `${googleAdsId}/${googleAdsCallLabel}`,
+  if (googleAdsId && googleAdsCallLabel) {
+    const sendTo = `${googleAdsId}/${googleAdsCallLabel}`;
+    safeGtag('event', 'conversion', {
+      send_to: sendTo,
       value: 1.0,
-      currency: 'USD',
+      currency: 'KZT',
     });
+    console.log('📞 [Google Ads] Phone Click Conversion fired:', sendTo);
   }
 
-  if (ANALYTICS_CONFIG.ga4MeasurementId && typeof window.gtag === 'function') {
-    window.gtag('event', 'click_to_call', {
+  if (ANALYTICS_CONFIG.ga4MeasurementId) {
+    safeGtag('event', 'click_to_call', {
       event_category: 'engagement',
       event_label: 'phone_call',
     });
@@ -133,16 +147,18 @@ export function trackPhoneClick() {
 export function trackWhatsAppClick() {
   const { googleAdsId, googleAdsWhatsAppLabel } = ANALYTICS_CONFIG;
 
-  if (googleAdsId && googleAdsWhatsAppLabel && typeof window.gtag === 'function') {
-    window.gtag('event', 'conversion', {
-      send_to: `${googleAdsId}/${googleAdsWhatsAppLabel}`,
+  if (googleAdsId && googleAdsWhatsAppLabel) {
+    const sendTo = `${googleAdsId}/${googleAdsWhatsAppLabel}`;
+    safeGtag('event', 'conversion', {
+      send_to: sendTo,
       value: 1.0,
-      currency: 'USD',
+      currency: 'KZT',
     });
+    console.log('💬 [Google Ads] WhatsApp Click Conversion fired:', sendTo);
   }
 
-  if (ANALYTICS_CONFIG.ga4MeasurementId && typeof window.gtag === 'function') {
-    window.gtag('event', 'click_to_whatsapp', {
+  if (ANALYTICS_CONFIG.ga4MeasurementId) {
+    safeGtag('event', 'click_to_whatsapp', {
       event_category: 'engagement',
       event_label: 'whatsapp_chat',
     });
