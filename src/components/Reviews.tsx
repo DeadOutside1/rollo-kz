@@ -1,6 +1,7 @@
 import React from 'react';
 import { Star, MessageSquarePlus, CheckCircle2 } from 'lucide-react';
 import { REVIEWS, SITE_CONFIG } from '../config/site';
+import { trackWhatsAppClick } from '../lib/analytics';
 
 export const Reviews: React.FC = () => {
   return (
@@ -17,7 +18,7 @@ export const Reviews: React.FC = () => {
               Отзывы наших клиентов
             </h2>
             <p className="text-base text-gray-600">
-              Каждый отзыв — это уютная квартира, современный дом или обновленный офис в Алматы и других городах Казахстана.
+              Каждый отзыв — это уютная квартира, современный дом или обновленный офис в Шымкенте и Туркестанской области.
             </p>
           </div>
 
@@ -25,6 +26,7 @@ export const Reviews: React.FC = () => {
             href={SITE_CONFIG.whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={trackWhatsAppClick}
             className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-white border border-gray-200 text-gray-800 hover:text-brand-800 text-sm font-bold shadow-soft transition-all w-fit shrink-0 hover:border-brand-300"
           >
             <MessageSquarePlus className="w-4 h-4 text-brand-600" />

@@ -262,7 +262,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onScrollToCalculator }) => {
                     </button>
 
                     <div className="flex items-center justify-between pt-1 text-[11px] text-gray-400">
-                      <span>{lang === 'ru' ? 'г. Шымкент, ул. Ореховая, 65' : 'Шымкент қ., Ореховая к-сі, 65'}</span>
+                      <span>{lang === 'ru' ? 'г. Шымкент, ул. Аль-Машани, 146' : 'Шымкент қ., Әл-Машани к-сі, 146'}</span>
                       <a
                         href={SITE_CONFIG.catalogPdfUrl}
                         download="Rollo_kz_Catalog.pdf"

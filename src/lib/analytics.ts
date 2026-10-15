@@ -28,6 +28,16 @@ export function initAnalytics() {
   if (ga4MeasurementId && typeof window.gtag === 'function') {
     window.gtag('config', ga4MeasurementId, { send_page_view: true });
   }
+
+  // Global catch-all listener for any link navigating or redirecting to WhatsApp
+  if (typeof document !== 'undefined') {
+    document.addEventListener('click', (e) => {
+      const target = (e.target as HTMLElement)?.closest('a');
+      if (target && target.href && (target.href.includes('wa.me') || target.href.includes('whatsapp.com'))) {
+        trackWhatsAppClick();
+      }
+    }, { capture: true });
+  }
 }
 
 /**
@@ -137,12 +147,26 @@ export function trackWhatsAppClick() {
 
   if (googleAdsId && googleAdsWhatsAppLabel) {
     const sendTo = `${googleAdsId}/${googleAdsWhatsAppLabel}`;
+    
+    // 1. Standard gtag event call
     safeGtag('event', 'conversion', {
       send_to: sendTo,
       value: 1.0,
       currency: 'KZT',
+      transport: 'beacon',
     });
-    console.log('💬 [Google Ads] WhatsApp Click Conversion fired:', sendTo);
+
+    // 2. Direct dataLayer push
+    if (typeof window !== 'undefined' && Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({
+        event: 'conversion',
+        send_to: sendTo,
+        value: 1.0,
+        currency: 'KZT',
+      });
+    }
+
+    console.log('💬 [Google Ads] WhatsApp Conversion fired:', sendTo);
   }
 
   if (ANALYTICS_CONFIG.ga4MeasurementId) {
